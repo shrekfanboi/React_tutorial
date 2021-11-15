@@ -35,3 +35,13 @@ address{
 .navbar-dark {
     background-color: #512DA8;
 }
+
+#dish-name {
+    color:black;
+}
+
+#dish-name:hover {
+    color:blue;
+    text-decoration: underline;
+}
+
