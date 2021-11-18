@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button, Modal, ModalBody, ModalHeader, Label, Row, Col} from "reactstrap";
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from "./shared/baseUrl";
 
 
 const required = (val) => val && val.length; //value > 0
@@ -27,7 +28,7 @@ class CommentForm extends Component{
 
     handleCommentFormSubmit(values) {
         console.log("Current State is: " + JSON.stringify(values));
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
 
 
     }
@@ -132,11 +133,12 @@ class CommentForm extends Component{
 }
 
 function RenderDish({dish}){
+    console.log(dish)
     if(dish != null){
         return (
         <div className="col-12 col-md-5 m-1">
             <Card>
-                <CardImg width="100%" src={dish.image} alt={dish.name}/>
+                <CardImg width="100%" src={baseUrl+dish.image} alt={dish.name}/>
                 <CardBody>
                     <CardTitle style={{fontWeight:"bold"}}>{dish.name}</CardTitle>
                     <CardText>{dish.description}</CardText>
@@ -154,7 +156,7 @@ function RenderDish({dish}){
 
 
 
-function RenderComments({dish,dishId,comments,addComment}){
+function RenderComments({dish,dishId,comments,postComment}){
     if(comments !== undefined ){
         const cmts = comments.map(comment =>{
             return (
@@ -175,7 +177,7 @@ function RenderComments({dish,dishId,comments,addComment}){
             <div className="col-12 col-md-5 m-1">
             <h4> Comments </h4>
                 {cmts}
-                <CommentForm dishId={dishId} dish={dish} comments={comments} addComment={addComment} />
+                <CommentForm dishId={dishId} dish={dish} comments={comments} postComment={postComment} />
             </div>
         );
     }
@@ -225,7 +227,7 @@ const DishDetails = (props) => {
                         <div className="col-12 col-md-5 m-1">
                             <RenderComments comments={props.comments}
                             dish = {props.dish} 
-                            addComment = {props.addComment}
+                            postComment = {props.postComment}
                             dishId = {props.dish.id}/>
                         </div>
                     </div>
